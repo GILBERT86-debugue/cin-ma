@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>mini cinéma fictif Gilbert Humblot - Accueil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <h1 class="Acc">Accueil</h1>
+  <style>
+    :root {
+      --main-color: #971a56;
+      --bg-color: #3a38b4;
+      --text-color: #201f11;
+      --card-bg: #fa1111;
+      --accent: #28a745;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    header {
+      background-color: var(--main-color);
+      color: rgb(15, 16, 16);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav a {
+      color: rgb(16, 15, 15);
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 600;
+    }
+
+    main {
+      padding: 2rem 1rem;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+
+    .film-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .film-card {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(204, 96, 96, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s;
+    }
+
+    .film-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .film-card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .film-info {
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .film-info h3 {
+      margin: 0 0 0.5rem;
+    }
+
+    .price {
+      color: var(--accent);
+      font-weight: 600;
+      margin: 0.3rem 0;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .controls button {
+      padding: 6px 10px;
+      font-size: 1rem;
+      background: #ae0707;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .controls span {
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    .buy-btn {
+      background-color: var(--main-color);
+      color: rgb(15, 37, 159);
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      margin-top: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .buy-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .buy-btn:disabled {
+      background-color: #a91717;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 0.5rem;
+      }
+
+      nav a {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    .stars {
+      display: flex;
+      gap: 5px;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      cursor: pointer;
+    }
+
+    .stars span {
+      color: #ddd;
+    }
+
+    .stars span.active {
+      color: gold;
+    }
+
+    .comment-section {
+      margin-top: 1rem;
+    }
+
+    .comment-section textarea {
+      width: 100%;
+      padding: 6px;
+      font-family: 'Poppins', sans-serif;
+      resize: vertical;
+      min-height: 60px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .comment-section button {
+      margin-top: 6px;
+      padding: 6px 10px;
+      font-weight: 600;
+      background-color: #fff;
+      border: 1px solid #333;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .comments-display {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      background: #fdfdfd;
+      border-radius: 5px;
+      padding: 6px;
+      max-height: 80px;
+      overflow-y: auto;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: var(--main-color);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Mini cinéma fictif Gilbert Humblot</h1>
+    <nav>
+      <a href="inscription.html">Inscription</a>
+      <a href="connexion.html">Connexion</a>
+      <a href="espace-membre.html">Espace Membre</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>🎬 Films </h2>
+    <div class="film-container" id="filmContainer">
+      <!-- Films générés dynamiquement -->
+    </div>
+  </main>
+
+  <script>
+    const isConnected = false;
+
+    // Liste des films avec prix initiaux
+    const films = [ 
+      {
+        id: 1,
+        title: "Superman - Film 2025",
+        image: "https://fr.web.img2.acsta.net/img/ac/22/ac2200ae757af6f366a71ee2c5ba44ee.jpg",
+        places: 50,
+        price: 12,
+        rating: 4,
+        comments: [
+          "Un excellent reboot du héros classique.", 
+          "Effets spéciaux spectaculaires.", 
+          "À voir sur grand écran."
+        ]
+      },
+      {
+        id: 2,
+        title: "The Batman - Film 2022",
+        image: "https://fr.web.img5.acsta.net/pictures/22/02/16/17/42/3125788.jpg",
+        places: 50,
+        price: 13,
+        rating: 5,
+        comments: [
+          "Un Batman plus sombre et réaliste.", 
+          "Robert Pattinson est convaincant.", 
+          "Très bon thriller."
+        ]
+      },
+      {
+        id: 3,
+        title: "Iron Man - Film 2008",
+        image: "https://fr.web.img3.acsta.net/medias/nmedia/18/62/89/45/18876909.jpg",
+        places: 50,
+        price: 10,
+        rating: 5,
+        comments: [
+          "Le début d'une saga légendaire.", 
+          "Tony Stark est charismatique.", 
+          "Humour et action au top."
+        ]
+      },
+      {
+        id: 4,
+        title: "Garfield - Film 2003",
+        image: "https://fr.web.img5.acsta.net/medias/nmedia/18/35/23/61/18382507.jpg",
+        places: 50,
+        price: 8,
+        rating: 3,
+        comments: [
+          "Amusant pour les enfants.", 
+          "Un Garfield fidèle au dessin animé.", 
+          "Pas inoubliable mais sympa."
+        ]
+      },
+      {
+        id: 5,
+        title: "Good Doctor Saison 3",
+        image: "https://fr.web.img6.acsta.net/pictures/19/10/01/16/16/1486150.jpg",
+        places: 50,
+        price: 11,
+        rating: 4,
+        comments: [
+          "Toujours aussi émouvant.", 
+          "Des cas médicaux captivants.", 
+          "Shaun Murphy est touchant."
+        ]
+      },
+      {
+        id: 6,
+        title: "The Flash - Film 2023",
+        image: "https://fr.web.img6.acsta.net/pictures/23/04/26/10/33/4339332.jpg",
+        places: 50,
+        price: 12.5,
+        rating: 5,
+        comments: [
+          "Les réalités s'affrontent dans THE FLASH lorsque Barry se sert de ses super-pouvoirs pour remonter le temps et modifier son passé."
+        ]
+      },
+      {
+        id: 7,
+        title: "Iron Man - Film 2008",
+        image: "https://fr.web.img3.acsta.net/medias/nmedia/18/62/89/45/18876909.jpg",
+        places: 50,
+        price: 10,
+        rating: 3,
+        comments: [
+          "Tony Stark, inventeur de génie, vendeur d'armes et playboy milliardaire, est kidnappé en Aghanistan."
+        ]
+      },
+      {
+        id: 8,
+        title: "Action - Film 2019",
+        image: "https://fr.web.img5.acsta.net/pictures/19/11/12/15/33/1892626.jpg",
+        places: 50,
+        price: 9.5,
+        rating: 3,
+        comments: ["Film d'action"]
+      },
+      {
+        id: 9,
+        title: "Back In Action - Film 2024",
+        image: "https://fr.web.img5.acsta.net/img/b3/40/b34000940ed0d79aa6449eaee528b8a7.jpg",
+        places: 50,
+        price: 13,
+        rating: 4,
+        comments: [
+          "Alors qu'ils ont démissionné depuis longtemps de la CIA pour fonder une famille, Emily et Matt sont rattrapés malgré eux par l'espionnage..."
+        ]
+      },
+      {
+        id: 10,
+        title: "Alita - Battle Angel - Film d'Animation 2018 - Manga news",
+        image: "https://www.manga-news.com/public/images/dvd/alita-battle-angel-affcihe-fr.webp",
+        places: 50,
+        price: 11.5,
+        rating: 4,
+        comments: [
+          "Lorsqu'Alita se réveille sans aucun souvenir de qui elle est, dans un futur qu'elle ne reconnaît pas, elle est accueillie par Ido..."
+        ]
+
+      },
+
+
+      {
+        id: 11,
+        title: "Violence Action",
+        image: "https://www.nautiljon.com/images/asian-movie/00/83/violence_action_5138.webp",
+        places: 50,
+        price: 11.5,
+        rating: 4,
+        comments: [
+          "Kei Kikuno fréquente une école professionnelle en tant qu'étudiante. Pour son emploi à temps partiel, elle travaille comme tueuse à gages. Elle est excellente dans son travail et n'a jamais peur de personne. Un jour, elle reçoit la demande la plus exigeante qu'elle n'aie jamais eue.",
+        ]
+      },
+
+
+
+
+
+
+
+      
+
+      
+
+    ];
+
+    // Initialisation du localStorage
+    if (!localStorage.getItem("films")) {
+      localStorage.setItem("films", JSON.stringify(films));
+    }
+    if (!localStorage.getItem("ventes")) {
+      localStorage.setItem("ventes", JSON.stringify({}));
+    }
+
+    const filmContainer = document.getElementById("filmContainer");
+    const counters = {};
+
+    function renderFilms() {
+      const storedFilms = JSON.parse(localStorage.getItem("films")) || films;
+      filmContainer.innerHTML = "";
+      
+      storedFilms.forEach(film => {
+        const card = document.createElement("div");
+        card.className = "film-card";
+        card.innerHTML = `
+          <img src="${film.image}" alt="${film.title}">
+          <div class="film-info">
+            <h3>${film.title}</h3>
+            <p class="price">Prix : ${film.price} €</p>
+            <p>Places disponibles : <span id="places-${film.id}">${film.places}</span></p>
+            <div class="stars" id="stars-${film.id}">
+              ${[1, 2, 3, 4, 5].map(i => `<span data-star="${i}">&#9733;</span>`).join("")}
+            </div>
+            <div class="controls">
+              <button onclick="decrement(${film.id})">-</button>
+              <span id="count-${film.id}">0</span>
+              <button onclick="increment(${film.id}, ${film.places})">+</button>
+            </div>
+            <button class="buy-btn" onclick="buy(${film.id})" ${!isConnected ? "disabled" : ""}>Acheter</button>
+            <div class="comment-section">
+              <textarea id="comment-input-${film.id}" placeholder="Ajouter un commentaire..."></textarea>
+              <button onclick="addComment(${film.id})">Publier</button>
+              <div class="comments-display" id="comments-${film.id}"></div>
+            </div>
+          </div>
+        `;
+        filmContainer.appendChild(card);
+        counters[film.id] = 0;
+        renderComments(film.id);
+        setupStarRating(film.id, film.rating);
+      });
+    }
+
+    function increment(id, max) {
+      if (counters[id] < max) counters[id]++;
+      document.getElementById(`count-${id}`).textContent = counters[id];
+    }
+
+    function decrement(id) {
+      if (counters[id] > 0) counters[id]--;
+      document.getElementById(`count-${id}`).textContent = counters[id];
+    }
+
+    function buy(id) {
+      const quantity = counters[id] || 0;
+      if (quantity === 0) {
+        alert("Veuillez sélectionner au moins une place.");
+        return;
+      }
+      
+      const films = JSON.parse(localStorage.getItem("films")) || [];
+      const film = films.find(f => f.id === id);
+      
+      if (!film || film.places < quantity) {
+        alert("Plus assez de places disponibles.");
+        return;
+      }
+      
+      // Mise à jour des places
+      film.places -= quantity;
+      
+      // Enregistrement des ventes
+      const ventes = JSON.parse(localStorage.getItem("ventes")) || {};
+      ventes[id] = (ventes[id] || 0) + quantity;
+      
+      // Sauvegarde
+      localStorage.setItem("films", JSON.stringify(films));
+      localStorage.setItem("ventes", JSON.stringify(ventes));
+      
+      // Mise à jour de l'affichage
+      counters[id] = 0;
+      document.getElementById(`places-${id}`).textContent = film.places;
+      document.getElementById(`count-${id}`).textContent = "0";
+      
+      alert(`Achat de ${quantity} place(s) pour "${film.title}" effectué pour ${(quantity * film.price).toFixed(2)} € !`);
+      renderFilms();
+    }
+
+    function setupStarRating(id, initialRating) {
+      const stars = document.querySelectorAll(`#stars-${id} span`);
+      stars.forEach(star => {
+        const rating = parseInt(star.getAttribute("data-star"));
+        if (rating <= initialRating) star.classList.add("active");
+
+        star.addEventListener("click", () => {
+          stars.forEach(s => s.classList.remove("active"));
+          for (let i = 0; i < rating; i++) {
+            stars[i].classList.add("active");
+          }
+          
+          const films = JSON.parse(localStorage.getItem("films")) || [];
+          const filmIndex = films.findIndex(f => f.id === id);
+          if (filmIndex !== -1) {
+            films[filmIndex].rating = rating;
+            localStorage.setItem("films", JSON.stringify(films));
+          }
+        });
+      });
+    }
+
+    function addComment(id) {
+      const input = document.getElementById(`comment-input-${id}`);
+      const text = input.value.trim();
+      if (text) {
+        const films = JSON.parse(localStorage.getItem("films")) || [];
+        const filmIndex = films.findIndex(f => f.id === id);
+        if (filmIndex !== -1) {
+          films[filmIndex].comments.push(text);
+          localStorage.setItem("films", JSON.stringify(films));
+          input.value = "";
+          renderComments(id);
+        }
+      }
+    }
+
+    function renderComments(id) {
+      const films = JSON.parse(localStorage.getItem("films")) || [];
+      const film = films.find(f => f.id === id);
+      if (film) {
+        const container = document.getElementById(`comments-${id}`);
+        container.innerHTML = film.comments.map(c => `<div>• ${c}</div>`).join("");
+      }
+    }
+
+    // Initial render
+    renderFilms();
+  </script>
+  <footer>site fictif mini cinéma crée par Gilbert Humblot</footer>
+</body>
+</html>

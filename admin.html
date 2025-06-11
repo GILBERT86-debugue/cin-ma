@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini-CGR - Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #971a56;
+      text-align: center;
+    }
+    .film {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 0.5rem;
+      font-weight: 600;
+    }
+    input[type="number"] {
+      padding: 8px;
+      width: 100px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 8px 15px;
+      background-color: #971a56;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #7a1445;
+    }
+    .ca {
+      font-weight: bold;
+      color: #28a745;
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .total-ca {
+      background: #971a56;
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .total-ca h2 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    .film-title {
+      color: #971a56;
+      margin-bottom: 0.5rem;
+    }
+    .price-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+   
+</script>
+  <h1>🎬 Espace Admin</h1>
+
+
+<!-- Ajoutez ceci juste après le <h1> dans admin.html -->
+<div class="add-film-form">
+  <h2>Ajouter un nouveau film</h2>
+  <form id="addFilmForm">
+    <label>Titre: <input type="text" id="newFilmTitle" required></label>
+    <label>Image URL: <input type="text" id="newFilmImage" required></label>
+    <label>Places: <input type="number" id="newFilmPlaces" value="50" required></label>
+    <label>Prix: <input type="number" id="newFilmPrice" step="0.5" value="10" required></label>
+    <button type="submit">Ajouter le film</button>
+  </form>
+</div>
+
+<style>
+.add-film-form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.add-film-form h2 {
+  color: #971a56;
+  margin-top: 0;
+}
+.add-film-form label {
+  display: block;
+  margin: 0.8rem 0;
+}
+.add-film-form input {
+  padding: 8px;
+  width: 100%;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.add-film-form button {
+  background-color: #28a745;
+  padding: 10px 15px;
+  margin-top: 10px;
+}
+.add-film-form button:hover {
+  background-color: #218838;
+}
+</style>
+
+
+
+
+
+  
+  <div id="adminContainer">
+    <div class="total-ca">
+      <h2 id="totalCA">Chargement...</h2>
+    </div>
+  </div>
+
+  <script>
+    // Chargement des données
+    const films = JSON.parse(localStorage.getItem("films")) || [];
+    const ventes = JSON.parse(localStorage.getItem("ventes")) || {};
+
+    const adminContainer = document.getElementById("adminContainer");
+    const totalCAElement = document.getElementById("totalCA");
+
+
+
+
+
+
+// Ajoutez cette fonction avec les autres fonctions dans admin.html
+document.getElementById("addFilmForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  
+  const films = JSON.parse(localStorage.getItem("films")) || [];
+  const ventes = JSON.parse(localStorage.getItem("ventes")) || {};
+  
+  const newFilm = {
+    id: films.length > 0 ? Math.max(...films.map(f => f.id)) + 1 : 1,
+    title: document.getElementById("newFilmTitle").value,
+    image: document.getElementById("newFilmImage").value,
+    places: parseInt(document.getElementById("newFilmPlaces").value),
+    price: parseFloat(document.getElementById("newFilmPrice").value),
+    rating: 3, // Note par défaut
+    comments: [] // Pas de commentaires au départ
+  };
+  
+  films.push(newFilm);
+  ventes[newFilm.id] = 0;
+  
+  localStorage.setItem("films", JSON.stringify(films));
+  localStorage.setItem("ventes", JSON.stringify(ventes));
+  
+  // Réinitialiser le formulaire
+  document.getElementById("addFilmForm").reset();
+  
+  // Recharger l'affichage
+  adminContainer.innerHTML = '<div class="total-ca"><h2 id="totalCA">Chargement...</h2></div>';
+  renderAdminPanel();
+  
+  alert(`Film "${newFilm.title}" ajouté avec succès !`);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function calculateTotalCA() {
+      let total = 0;
+      films.forEach(film => {
+        total += (ventes[film.id] || 0) * film.price;
+      });
+      return total.toFixed(2);
+    }
+
+    function renderAdminPanel() {
+      // Calcul du CA total
+      const totalCA = calculateTotalCA();
+      totalCAElement.textContent = `Chiffre d'affaires total : ${totalCA} €`;
+
+      // Affichage des films
+      films.forEach(film => {
+        const div = document.createElement("div");
+        div.className = "film";
+        const price = film.price || 12;
+        const nbVentes = ventes[film.id] || 0;
+        const ca = (nbVentes * price).toFixed(2);
+
+        div.innerHTML = `
+          <h3 class="film-title">${film.title}</h3>
+          <p>Places restantes: ${film.places}</p>
+          <label>Modifier le prix :</label>
+          <div class="price-control">
+            <input type="number" value="${price}" min="0" step="0.5" id="price-${film.id}" />
+            <button onclick="updatePrice(${film.id})">💾 Enregistrer</button>
+          </div>
+          <div class="ca">Ventes : ${nbVentes} → CA : <span id="ca-${film.id}">${ca} €</span></div>
+        `;
+        adminContainer.appendChild(div);
+      });
+    }
+
+    function updatePrice(id) {
+      const input = document.getElementById(`price-${id}`);
+      const newPrice = parseFloat(input.value);
+      
+      if (isNaN(newPrice) || newPrice < 0) {
+        alert("Prix invalide");
+        input.value = films.find(f => f.id === id).price;
+        return;
+      }
+
+      // Mise à jour du prix dans le tableau des films
+      const filmIndex = films.findIndex(f => f.id === id);
+      if (filmIndex !== -1) {
+        films[filmIndex].price = newPrice;
+        localStorage.setItem("films", JSON.stringify(films));
+        
+        // Recalcul du CA pour ce film
+        const nbVentes = ventes[id] || 0;
+        const ca = (nbVentes * newPrice).toFixed(2);
+        document.getElementById(`ca-${id}`).textContent = `${ca} €`;
+        
+        // Mise à jour du CA total
+        totalCAElement.textContent = `Chiffre d'affaires total : ${calculateTotalCA()} €`;
+        
+        alert("Prix mis à jour avec succès !");
+      }
+    }
+
+    // Initial render
+    renderAdminPanel();
+  </script>
+</body>
+</html>
